@@ -1,0 +1,138 @@
+body {
+    background-color: black;
+    color: beige;
+    
+    font-family:fantasy,'Tangerine', cursive;
+    
+    position: relative;
+}
+.liczba {
+    position: relative;
+    left: 40%;
+    margin-top: 200px;
+}
+header {
+    /*position: relative;*/
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f00;
+    border: 2px solid brown;
+    border-radius: 5px;
+    padding: 10px;
+    
+    
+}
+h1 , h2 , h4 {
+    text-align: center;
+    position: relative;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+
+    
+
+}
+
+video {
+    position: relative;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+nav {
+   /*  position:relative;
+    width: 400px;
+    left: 40%;
+    padding: auto; */
+    background-color: white;
+   /* border: 1px solid white;
+     border: 2px solid brown;
+    border-radius: 2px;*/
+    
+}
+
+p {
+    position:relative;
+    width: 70%;
+    background-color:black;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+a {
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: none;
+}
+img {
+    float: left;
+    position:relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 30px;
+    padding-right: 10px;
+    background-color: black;
+    color: white;
+}
+ ul li {
+    
+    position: relative;
+    display: inline;
+    margin-left: auto;
+    margin-right: auto;
+}
+ul {
+    text-align: center;
+}
+a:active {
+    color: red;
+}
+a:hover {
+    color: red;
+}
+article {
+    font-family: fantasy,'Tangerine', cursive;
+    margin-left: 3px;
+    margin-right: 10vh;
+    font-size: 2vh;
+    text-align: left;
+    padding: 10px;
+}
+div {
+    text-align: center;
+}
+#book {
+    font-family: fantasy,'Tangerine', cursive;
+    font-weight: 100;
+    font-size:1.5vh;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    background: black;
+    color: white;
+}
+#film {
+    justify-content: center;
+}
+
+#map {
+       height: 780px;
+      }
+      .map:-webkit-full-screen {
+        height: 100%;
+        margin: 0;
+      }
+      .map:fullscreen {
+        height: 100%;
+      }
+      /* position the rotate control lower than usual */
+      .map .ol-rotate {
+        top: 3em;
+      }
+#sticky {
+    position: sticky;
+    top: 0;
+}
+

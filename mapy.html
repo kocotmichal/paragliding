@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;1,600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Farsan&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <style>
+        body {
+            background-color: aliceblue;
+            /*font-family: "poppins";*/
+           
+            font-family: "Farsan", cursive;
+            font-weight: 400;
+            font-style: normal;
+
+
+        }
+        #map {
+               height: 100vh;
+               position: relative;
+               top:0px;
+              }
+       
+        
+        nav {
+              
+              position:absolute;
+              background-color: aliceblue;
+              display: flex;
+              left: 30%;
+              right: 30%;
+
+            }
+
+         ul {
+              display:inline;
+              list-style: none;
+              background-color: transparent;
+            
+              
+              
+              
+              
+              
+          }
+          
+
+          li {
+              margin-left: auto;
+              margin-right: auto;
+              font-size: 2rem;
+              padding: 5px;
+              z-index: 500;
+              
+            }
+
+          nav a {
+              display: inline;
+              color:black;
+              text-decoration: none;
+              font-family: "poppins";
+              font-weight: 300;
+              font-size: 1.5rem;
+              
+              
+             
+          }
+          #top {
+            
+            margin-top: auto;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          
+      
+        #nag{
+          display: flexbox;
+          position: absolute;
+          top: 5%;
+          left: 5%;
+          z-index: 500;
+          color: black;
+        }
+        input {
+          font-size: 1.1rem;
+          height:20px;
+        }
+       
+       
+     </style>
+    <title>Document</title>
+</head>
+<body>
+   <div id="top">
+        <nav> 
+          <div class="nagl">
+            <ul>
+                <li><a href="index.html">Start</a></li>
+                <li><a href="media.html">Filmik</a></li>
+                <li><a href="book.html">Ksiązki</a></li>
+                <li><a href="mapy.html">Paralotnie</a></li>
+                <li> <a href="corka.html">Córusia</a></li>
+            </ul>   
+          </div>
+        </nav>
+     </div>
+         <div id="nag" ><input type="file" accept=".igc" name="ble" id="upload"  onchange="doUpload(this);"/></div>
+         
+  
+
+    <div id="map" class="map"></div>
+    
+      
+       
+   
+    <script>
+      let wysokosciTab=[];
+        let dlugoscg=49.64807;
+        let szerokosc=20.596619
+        let dlugoscgMax=dlugoscg;
+        let dlugoscgMin=dlugoscg;
+        let szerokoscMax=szerokosc;
+        let szerokoscMin=szerokosc;
+        var map = L.map('map').setView([dlugoscg, szerokosc],10);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    
+    function doUpload(uploader) {
+        var reader = new FileReader();
+        reader.readAsText(uploader.files[0], 'UTF-8');
+        reader.onprogress = function(ev) {
+        console.log('Postęp wczytywania', ev);
+        
+   };
+    
+       
+     reader.onload = function(ev) {
+      document.getElementById('upload').innerHTML = ev.target.result;
+        
+      var line=ev.target.result;
+      var dlugosc=line.length;
+      console.log(dlugosc) ;
+      line=line.toUpperCase();
+      const tablica = line.split('\r\n') ;
+        //console.log(tablica);
+        //console.log(tablica.length);
+        var dane=[];
+        let wspolz=[];
+        let a;
+        let b;
+        let c;
+        for (let i=0; i< tablica.length-2;) {
+        if (tablica[i].startsWith("B"))
+        {
+          wspolz=[];
+       
+        a=(((parseFloat((tablica[i].slice(16,22)/10000).toFixed(5)))-parseFloat(tablica[i].slice(16,18)))/6*10)+parseFloat(tablica[i].slice(16,18));
+        b=(((parseFloat((tablica[i].slice(7,13)/10000).toFixed(5)))-parseFloat(tablica[i].slice(7,9)))/6*10)+parseFloat(tablica[i].slice(7,9));
+        c=parseFloat((tablica[i].slice(26,30)));
+        function start(dlugoscg,szerokosc){
+       
+       
+        if (dlugoscgMax<a) dlugoscgMax=b;
+        if (dlugoscgMin>a) dlugoscgMin=b;
+        console.log("długośćMax-"+dlugoscgMax);
+        console.log("długośćMin-"+dlugoscgMin);
+        
+        if (szerokoscMax<b) szerokoscMax=a;
+        if (szerokoscMin>b) szerokoscMin=a;
+        dlugoscg= (dlugoscgMax+dlugoscgMin)/2;
+        szerokosc=(szerokoscMax+szerokoscMin)/2;
+        console.log("długość :",dlugoscg);
+        console.log("szerokość :",szerokosc);
+        return [dlugoscg,szerokosc];
+        var map = L.map('map').setView([dlugoscg, szerokosc],10);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        }
+        start(dlugoscg,szerokosc);
+        wspolz.push(a);
+        wspolz.push(b);
+        wysokosciTab.push(c);
+        //d=tablica[0]
+        //console.log("N =",d)
+        console.log("wysokość :",c);
+        dane.push(wspolz);
+        
+        }
+        i++;
+      }
+      
+     
+      //console.log(dane);
+      var myLines={
+                      "type": "FeatureCollection",
+                      "features": [
+                        {
+                          "type": "Feature",
+                          "properties": {
+                            
+                        },
+                          "geometry": {
+                            "type": "LineString",
+                            "coordinates": dane 
+                          
+                                }
+                        }
+                      ]
+                      
+                      
+                      
+                    }
+                    
+                    
+console.log(dane[1]);
+let long = dane[0];
+console.log(dane);
+          
+ L.geoJSON(myLines).addTo(map);
+    };
+    
+   reader.onerror = function(ev) {
+      alert('Błąd wczytywania pliku!');
+   };
+   for (let i = 0; i < dane.length; i++) {
+  wysokosci.push(dane[i][2]);
+}  
+let wykres = new Chart('wykres', {
+  type: 'line',
+  data: {
+    labels: [...Array(dane.length).keys()],
+    datasets: [{
+      label: 'Wysokość',
+      data: wysokosci,
+      borderColor: 'blue',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+document.getElementById('wykres').innerHTML = wykres;
+      
+   
+}
+   
+    //   
+    
+for (let i = 0; i < dane.length; i++) {
+  wysokosci.push(dane[i][2]);
+}  
+let wykres = new Chart('wykres', {
+  type: 'line',
+  data: {
+    labels: [...Array(dane.length).keys()],
+    datasets: [{
+      label: 'Wysokość',
+      data: wysokosci,
+      borderColor: 'blue',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+document.getElementById("wykres").innerHTML = wykres;
+console.log(dane);
+
+
+
+
+
+    </script>
+    
+    <canvas id="wykres"></canvas>
+    
+</body>
+</html>
